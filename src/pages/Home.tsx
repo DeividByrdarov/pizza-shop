@@ -1,30 +1,53 @@
 import React from "react"
 import { connect } from "react-redux"
-import { Typography } from "@material-ui/core"
+import { Typography, Button } from "@material-ui/core"
 
 import ProductDisplay from "components/ProductDisplay"
+import * as NotificationActions from "redux/actions/Notification"
 import { AppState } from "redux/reducers"
 import { getAuthReducer } from "redux/selectors"
+import { Notification } from "types/Notification"
 
 const mapStateToProps = (state: AppState) => ({
   isLoggedIn: getAuthReducer(state).isLoggedIn,
 })
 
-type Props = ReturnType<typeof mapStateToProps> & {}
+const mapDispatchToProps = {
+  addNotificationMessage: NotificationActions.addNotificationMessage,
+}
 
-const Home: React.SFC<Props> = ({ isLoggedIn }) => {
+type Props = ReturnType<typeof mapStateToProps> & {
+  addNotificationMessage: (notification: Notification) => void
+}
+
+const Home: React.SFC<Props> = ({ isLoggedIn, addNotificationMessage }) => {
   return (
     <div>
       <h1>Home</h1>
       {isLoggedIn ? (
         <ProductDisplay />
       ) : (
-        <Typography variant="h5">
-          Login to see products and create orders
-        </Typography>
+        <>
+          <Typography variant="h5">
+            Login to see products and create orders
+          </Typography>
+          <Button
+            onClick={() =>
+              addNotificationMessage({
+                level: "error",
+                title: "Test",
+              })
+            }
+          >
+            Click Me!
+          </Button>
+        </>
       )}
     </div>
   )
 }
 
-export default connect(mapStateToProps)(Home)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Home)

@@ -14,6 +14,10 @@ type Props = ReturnType<typeof mapStateToProps> & {}
 const style: Style = {
   NotificationItem: {
     DefaultStyle: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      borderTop: 0,
       margin: "20px 10px",
     },
   },
@@ -30,6 +34,19 @@ const style: Style = {
       margin: "0 0 10px 0",
       padding: 0,
       fontWeight: "bold",
+    },
+  },
+  Dismiss: {
+    DefaultStyle: {
+      position: "relative",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      width: "20px",
+      height: "20px",
+      fontSize: "20px",
+      top: "0",
+      right: "0",
     },
   },
 }

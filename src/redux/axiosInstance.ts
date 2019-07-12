@@ -24,7 +24,8 @@ const axiosInstance = axios.create({
 })
 
 axiosInstance.interceptors.request.use(config => {
-  config.headers["Authorization"] = `Basic ${getToken()}`
+  const token = getToken()
+  if (token) config.headers["Authorization"] = `Basic ${token}`
 
   return config
 })

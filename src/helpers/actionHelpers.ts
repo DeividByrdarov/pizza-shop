@@ -2,28 +2,27 @@ import { AxiosResponse } from "axios"
 import { Dispatch } from "redux"
 import { addNotificationMessage } from "redux/actions/Notification"
 
-interface RequestType {
+type RequestType = {
   REQUEST: string
   SUCCESS: string
   FAILURE: string
 }
 
-export const asyncAction = <P>(
+export const asyncAction = <P = any>(
   type: RequestType,
   action: Promise<AxiosResponse<P>>,
-  extraCallback?: () => void
+  extraCallback?: (data: P) => void
 ) => async (dispatch: Dispatch) => {
   dispatch(actionCreator.request(type))
   try {
-    const payload = await action
+    const { data: payload } = await action
     dispatch(actionCreator.success(type, payload))
-    if (extraCallback) extraCallback()
+    if (extraCallback) extraCallback(payload)
   } catch (error) {
     dispatch(actionCreator.failure(type, error))
     addNotificationMessage({
-      message: error.response.data.message,
+      title: error.response.data.message,
       level: "error",
-      title: "Error!",
     })(dispatch)
   }
 }

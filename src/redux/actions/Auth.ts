@@ -2,9 +2,9 @@ import { Dispatch } from "redux"
 import {
   createRequestTypes,
   actionCreator,
+  asyncAction,
 } from "helpers/actionHelpers"
 import axiosInstance from "redux/axiosInstance"
-import { addNotificationMessage } from "./Notification"
 import { User } from "types/User"
 
 export type AuthBody = {
@@ -12,7 +12,7 @@ export type AuthBody = {
   password: string
 }
 
-export type AuthResponse = {
+export type LoginResponse = {
   token: string
 }
 
@@ -25,42 +25,20 @@ export const logout = () => async (dispatch: Dispatch) => {
   localStorage.removeItem("access_token")
 }
 
-export const login = (user: AuthBody) => async (dispatch: Dispatch) => {
-  dispatch(actionCreator.request(LOGIN))
-  try {
-    const {
-      data: { token },
-    } = await axiosInstance.post<AuthResponse>(`/users/login/`, user)
+export const login = (user: AuthBody) =>
+  asyncAction<LoginResponse>(
+    LOGIN,
+    axiosInstance.post(`/users/login/`, user),
+    ({ token }) => {
+      localStorage.setItem("access_token", token)
+    }
+  )
 
-    localStorage.setItem("access_token", token)
-    dispatch(actionCreator.success(LOGIN, { token }))
-  } catch (error) {
-    dispatch(actionCreator.failure(LOGIN, error))
-    addNotificationMessage({
-      message: error.response.data.message,
-      level: "error",
-      title: "Error!",
-    })(dispatch)
-  }
-}
-
-export const register = (user: AuthBody) => async (dispatch: Dispatch) => {
-  dispatch(actionCreator.request(REGISTER))
-  try {
-    const { data } = await axiosInstance.post<User>(`/users/register`, {
+export const register = (user: AuthBody) =>
+  asyncAction<User>(
+    REGISTER,
+    axiosInstance.post(`/users/register/`, {
       ...user,
       role: "USER",
     })
-
-    const token = btoa(`${data.username}:${data.password}`)
-    localStorage.setItem("access_token", token)
-    dispatch(actionCreator.success(REGISTER, { user: data, token }))
-  } catch (error) {
-    dispatch(actionCreator.failure(REGISTER, error))
-    addNotificationMessage({
-      message: error.response.data.message,
-      level: "error",
-      title: "Error!",
-    })(dispatch)
-  }
-}
+  )

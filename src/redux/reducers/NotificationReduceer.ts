@@ -1,13 +1,15 @@
-import { ADD_NOTIFICATION } from "redux/actions/Notification";
-import { Notification, NotificationAction } from "types/Notification";
+import { ADD_NOTIFICATION } from "redux/actions/Notification"
+import { Notification, NotificationAction } from "types/Notification"
 
 const initialState: Notification = {
-  message: '',
-  title: '',
+  title: "",
   level: undefined,
 }
 
-const notificationReducer = (state = initialState, action: NotificationAction) => {
+const notificationReducer = (
+  state = initialState,
+  action: NotificationAction
+) => {
   switch (action.type) {
     case ADD_NOTIFICATION:
       return action.payload
