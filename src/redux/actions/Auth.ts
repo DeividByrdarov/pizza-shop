@@ -28,16 +28,13 @@ export const logout = () => async (dispatch: Dispatch) => {
 export const login = (user: AuthBody) =>
   asyncAction<LoginResponse>(
     LOGIN,
-    axiosInstance.post(`/users/login/`, user),
-    ({ token }) => {
-      localStorage.setItem("access_token", token)
-    }
+    axiosInstance.post(`/api/users/login/`, user)
   )
 
 export const register = (user: AuthBody) =>
   asyncAction<User>(
     REGISTER,
-    axiosInstance.post(`/users/register/`, {
+    axiosInstance.post(`/api/users/register/`, {
       ...user,
       role: "USER",
     })

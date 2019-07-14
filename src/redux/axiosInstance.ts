@@ -30,4 +30,9 @@ axiosInstance.interceptors.request.use(config => {
   return config
 })
 
+axiosInstance.interceptors.response.use(
+  res => res,
+  err => (err && err.response && err.response.data ? err.response.data : err)
+)
+
 export default axiosInstance

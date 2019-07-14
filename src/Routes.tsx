@@ -5,6 +5,7 @@ import { Container } from "@material-ui/core"
 import Home from "pages/Home"
 import Login from "pages/Login"
 import Register from "pages/Register"
+import Cart from "pages/Cart"
 import Navbar from "components/Navbar"
 import Notifications from "components/Notifications"
 
@@ -19,6 +20,7 @@ const Routes = () => {
             <Route exact path="/" component={Home} />
             <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
+            <Route path="/cart" component={Cart} />
           </Switch>
         </Container>
       </>

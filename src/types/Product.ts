@@ -8,7 +8,9 @@ export type Product = {
   status: boolean
 }
 
-type GetProductsPayload = Product[]
+type GetProductsPayload = {
+  products: Product[]
+}
 
 export type ProductAction = Action & {
   payload: GetProductsPayload

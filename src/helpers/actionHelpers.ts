@@ -11,17 +11,17 @@ type RequestType = {
 export const asyncAction = <P = any>(
   type: RequestType,
   action: Promise<AxiosResponse<P>>,
-  extraCallback?: (data: P) => void
+  extraCallback?: (data: P, dispatch: Dispatch) => void
 ) => async (dispatch: Dispatch) => {
   dispatch(actionCreator.request(type))
   try {
     const { data: payload } = await action
     dispatch(actionCreator.success(type, payload))
-    if (extraCallback) extraCallback(payload)
+    if (extraCallback) extraCallback(payload, dispatch)
   } catch (error) {
     dispatch(actionCreator.failure(type, error))
     addNotificationMessage({
-      title: error.response.data.message,
+      title: error.message,
       level: "error",
     })(dispatch)
   }

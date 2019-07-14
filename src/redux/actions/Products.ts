@@ -5,4 +5,4 @@ import { Product } from "types/Product"
 export const GET_PRODUCTS = createRequestTypes("GET_PRODUCTS")
 
 export const getProducts = () =>
-  asyncAction<Product[]>(GET_PRODUCTS, axiosInstance.get(`/products/`))
+  asyncAction<Product[]>(GET_PRODUCTS, axiosInstance.get(`/api/products/`))

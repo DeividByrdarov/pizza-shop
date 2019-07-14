@@ -1,10 +1,7 @@
-import { Action } from "redux";
-import { User } from "./User";
+import { Action } from "redux"
+import { User } from "./User"
 
-export type LoginPayload = {
-  user: User
-  token: string
-}
+export type LoginPayload = User
 
 export type AuthAction = Action & {
   payload: LoginPayload

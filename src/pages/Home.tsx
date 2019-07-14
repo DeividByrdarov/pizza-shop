@@ -23,7 +23,6 @@ type Props = ReturnType<typeof mapStateToProps> & {
 const Home: React.SFC<Props> = ({ isLoggedIn, addNotificationMessage }) => {
   return (
     <div>
-      <h1>Home</h1>
       {isLoggedIn ? (
         <ProductDisplay />
       ) : (
