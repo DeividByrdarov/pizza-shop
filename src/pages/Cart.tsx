@@ -52,54 +52,64 @@ const Cart: React.SFC<Props> = ({
 
   return (
     <>
-      <Typography variant="h3">Cart</Typography>
-      <Typography variant="subtitle1">Total: {total}</Typography>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Name</TableCell>
-            <TableCell>Quantity</TableCell>
-            <TableCell>@</TableCell>
-            <TableCell>Price</TableCell>
-            <TableCell>Actions</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {items.map(item => (
-            <TableRow key={item.id}>
-              <TableCell>{item.name}</TableCell>
-              <TableCell>{item.quantity}</TableCell>
-              <TableCell>{Number(item.price).toFixed(2)} $</TableCell>
-              <TableCell>
-                {Number(item.price * item.quantity).toFixed(2)} $
-              </TableCell>
-              <TableCell>
-                <Button
-                  onClick={() => removeFromCart(item.id)}
-                  style={{ backgroundColor: red[800] }}
-                >
-                  <FontAwesomeIcon color="white" icon={faTrash} />
-                </Button>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+      <Typography className="mb-4" variant="h3">
+        Cart
+      </Typography>
+      {items.length > 0 ? (
+        <>
+          <Typography variant="subtitle1">
+            Total: {Number(total).toFixed(2)} $
+          </Typography>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Name</TableCell>
+                <TableCell>Quantity</TableCell>
+                <TableCell>@</TableCell>
+                <TableCell>Price</TableCell>
+                <TableCell>Actions</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {items.map(item => (
+                <TableRow key={item.id}>
+                  <TableCell>{item.name}</TableCell>
+                  <TableCell>{item.quantity}</TableCell>
+                  <TableCell>{Number(item.price).toFixed(2)} $</TableCell>
+                  <TableCell>
+                    {Number(item.price * item.quantity).toFixed(2)} $
+                  </TableCell>
+                  <TableCell>
+                    <Button
+                      onClick={() => removeFromCart(item.id)}
+                      style={{ backgroundColor: red[800] }}
+                    >
+                      <FontAwesomeIcon color="white" icon={faTrash} />
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
 
-      <div className="mt-3">
-        <Button
-          color="primary"
-          className="ml-auto"
-          variant="contained"
-          onClick={() => {
-            if ("id" in user) {
-              createOrder({ total, items, user })
-            }
-          }}
-        >
-          Submit order
-        </Button>
-      </div>
+          <div className="mt-3">
+            <Button
+              color="primary"
+              className="ml-auto"
+              variant="contained"
+              onClick={() => {
+                if (user) {
+                  createOrder({ total, items, user })
+                }
+              }}
+            >
+              Submit order
+            </Button>
+          </div>
+        </>
+      ) : (
+        <Typography variant="h5">No items in the cart</Typography>
+      )}
     </>
   )
 }

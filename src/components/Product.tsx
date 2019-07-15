@@ -27,12 +27,12 @@ const Product: React.SFC<Props> = ({ product, addToCart }) => {
 
   return (
     <Card className={classes.card}>
-      <CardContent>
+      <CardContent className="text-center">
         <Typography className="mb-3" variant="h4">
           {product.name.toUpperCase()}
         </Typography>
-        <Typography className="mb-1" variant="subtitle1">
-          Price: {product.price} Quantity: {product.quantity} Status:{" "}
+        <Typography className="mb-2" variant="subtitle1">
+          Price: {product.price} | Quantity: {product.quantity} | Status:{" "}
           <FontAwesomeIcon
             size="lg"
             color={product.status ? green[600] : red[600]}
@@ -40,7 +40,11 @@ const Product: React.SFC<Props> = ({ product, addToCart }) => {
           />
         </Typography>
         {product.status && (
-          <Button variant="outlined" onClick={() => addToCart(product)}>
+          <Button
+            variant="outlined"
+            color="primary"
+            onClick={() => addToCart(product)}
+          >
             Add to Cart
           </Button>
         )}

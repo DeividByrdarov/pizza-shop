@@ -1,5 +1,7 @@
 import React from "react"
 import { connect } from "react-redux"
+import { RouteComponentProps } from "react-router"
+import { History } from "history"
 import {
   TextField,
   Card,
@@ -10,10 +12,9 @@ import {
 
 import * as AuthActions from "redux/actions/Auth"
 import { useStateForInput } from "hooks"
-import { RouteComponentProps } from "react-router"
 
 type Props = RouteComponentProps & {
-  login: (user: AuthActions.AuthBody) => Promise<void>
+  login: (user: AuthActions.AuthBody, history: History<any>) => Promise<void>
 }
 
 const Login: React.SFC<Props> = ({ login, history }) => {
@@ -27,7 +28,7 @@ const Login: React.SFC<Props> = ({ login, history }) => {
         <form
           onSubmit={e => {
             e.preventDefault()
-            login({ username, password }).then(() => history.push("/"))
+            login({ username, password }, history)
           }}
         >
           <TextField

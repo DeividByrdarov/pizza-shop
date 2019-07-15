@@ -4,12 +4,12 @@ import { User } from "types/User"
 import { Action } from "redux"
 
 type State = {
-  user: User | {}
+  user: User | null
   isLoggedIn: boolean
 }
 
 const initialState: State = {
-  user: {},
+  user: null,
   isLoggedIn: false,
 }
 
@@ -20,21 +20,20 @@ const authReducer = (state = initialState, incomingAction: Action) => {
     case LOGOUT.SUCCESS:
       return {
         ...state,
-        user: {},
-        token: "",
+        user: null,
         isLoggedIn: false,
       }
     case LOGIN.SUCCESS:
       return {
         ...state,
         user: action.payload,
-        isLoggedIn: true,
+        isLoggedIn: !!action.payload,
       }
     case REGISTER.SUCCESS:
       return {
         ...state,
         user: action.payload,
-        isLoggedIn: true,
+        isLoggedIn: !!action.payload,
       }
     default:
       return state

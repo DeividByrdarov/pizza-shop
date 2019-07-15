@@ -11,13 +11,14 @@ import {
 
 import * as AuthActions from "redux/actions/Auth"
 import { useStateForInput } from "hooks"
+import { History } from "history"
 
 const mapDispatchToProps = {
   register: AuthActions.register,
 }
 
 type Props = RouteComponentProps & {
-  register: (user: AuthActions.AuthBody) => Promise<void>
+  register: (user: AuthActions.AuthBody, history: History<any>) => Promise<void>
 }
 
 const Register: React.SFC<Props> = ({ register, history }) => {
@@ -31,7 +32,7 @@ const Register: React.SFC<Props> = ({ register, history }) => {
         <form
           onSubmit={e => {
             e.preventDefault()
-            register({ username, password }).then(() => history.push("/"))
+            register({ username, password }, history)
           }}
         >
           <TextField

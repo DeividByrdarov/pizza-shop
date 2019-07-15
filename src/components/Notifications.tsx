@@ -19,6 +19,7 @@ const style: Style = {
       justifyContent: "space-between",
       borderTop: 0,
       margin: "20px 10px",
+      height: 60,
     },
   },
   MessageWrapper: {
@@ -34,6 +35,7 @@ const style: Style = {
       margin: "0 0 10px 0",
       padding: 0,
       fontWeight: "bold",
+      marginBottom: 0,
     },
   },
   Dismiss: {

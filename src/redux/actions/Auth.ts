@@ -4,8 +4,9 @@ import {
   actionCreator,
   asyncAction,
 } from "helpers/actionHelpers"
-import axiosInstance from "redux/axiosInstance"
 import { User } from "types/User"
+import { clearCart } from "./Cart"
+import { History } from "history"
 
 export type AuthBody = {
   username: string
@@ -22,20 +23,17 @@ export const REGISTER = createRequestTypes("REGISTER")
 
 export const logout = () => async (dispatch: Dispatch) => {
   dispatch(actionCreator.success(LOGOUT))
-  localStorage.removeItem("access_token")
+  clearCart()(dispatch)
 }
 
-export const login = (user: AuthBody) =>
-  asyncAction<LoginResponse>(
-    LOGIN,
-    axiosInstance.post(`/api/users/login/`, user)
+export const login = (user: AuthBody, history: History<any>) =>
+  asyncAction<LoginResponse>(LOGIN, ["post", `/api/users/login/`, user], () =>
+    history.push("/")
   )
 
-export const register = (user: AuthBody) =>
+export const register = (user: AuthBody, history: History<any>) =>
   asyncAction<User>(
     REGISTER,
-    axiosInstance.post(`/api/users/register/`, {
-      ...user,
-      role: "USER",
-    })
+    ["post", `/api/users/register/`, { ...user, role: "USER" }],
+    () => history.push("/")
   )

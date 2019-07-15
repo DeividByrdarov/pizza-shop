@@ -8,6 +8,7 @@ import Register from "pages/Register"
 import Cart from "pages/Cart"
 import Navbar from "components/Navbar"
 import Notifications from "components/Notifications"
+import User from "pages/User"
 
 const Routes = () => {
   return (
@@ -21,6 +22,7 @@ const Routes = () => {
             <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
             <Route path="/cart" component={Cart} />
+            <Route path="/user" component={User} />
           </Switch>
         </Container>
       </>

@@ -1,13 +1,14 @@
 import { createRequestTypes, asyncAction } from "helpers/actionHelpers"
-import axiosInstance from "redux/axiosInstance"
 import { Product } from "types/Product"
-import { OrderDetails } from "types/OrderDetails"
 import { clearCart } from "./Cart"
+import { Order } from "types/Order"
+import { addNotificationMessage } from "./Notification"
 
 export const CREATE_ORDER = createRequestTypes("CREATE_ORDER")
+export const GET_USER_ORDERS = createRequestTypes("GET_USER_ORDERS")
 
 export const createOrder = (order: any) => {
-  const body: OrderDetails = {
+  const body: Order = {
     ...order,
     orderDetails: order.items.map((item: Product) => ({
       quantity: item.quantity,
@@ -17,9 +18,16 @@ export const createOrder = (order: any) => {
 
   return asyncAction(
     CREATE_ORDER,
-    axiosInstance.post(`/api/orders/`, body),
+    ["post", `/api/orders/`, body],
     (_, dispatch) => {
-      // dispatch(clearCart())
+      clearCart()(dispatch)
+      addNotificationMessage({
+        title: "Successfully created order! :)",
+        level: "success",
+      })(dispatch)
     }
   )
 }
+
+export const getOrdersForUser = (user_id: number) =>
+  asyncAction(GET_USER_ORDERS, ["get", `/api/users/${user_id}/orders/`])
