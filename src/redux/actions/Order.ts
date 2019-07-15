@@ -34,10 +34,19 @@ export const getOrdersForUser = (user_id: number) =>
   asyncAction(GET_USER_ORDERS, ["get", `/api/users/${user_id}/orders/`])
 
 export const reorderCurrentOrder = (order_id: number) =>
-  asyncAction(REORDER_CURRENT_ORDER, [
-    "post",
-    `/api/orders/reorder/`,
-    {
-      order_id,
-    },
-  ])
+  asyncAction(
+    REORDER_CURRENT_ORDER,
+    [
+      "post",
+      `/api/orders/reorder/`,
+      {
+        order_id,
+      },
+    ],
+    (_, dispatch) => {
+      addNotificationMessage({
+        title: "Reordered successfully!",
+        level: "success",
+      })(dispatch)
+    }
+  )
