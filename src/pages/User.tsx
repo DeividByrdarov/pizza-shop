@@ -22,13 +22,20 @@ const mapStateToProps = (state: AppState) => ({
 
 const mapDispatchToProps = {
   getOrdersForUser: OrderActions.getOrdersForUser,
+  reorderCurrentOrder: OrderActions.reorderCurrentOrder,
 }
 
 type Props = ReturnType<typeof mapStateToProps> & {
   getOrdersForUser: (user_id: number) => Promise<void>
+  reorderCurrentOrder: (order_id: number) => Promise<void>
 }
 
-const User: React.SFC<Props> = ({ user, orders, getOrdersForUser }) => {
+const User: React.SFC<Props> = ({
+  user,
+  orders,
+  getOrdersForUser,
+  reorderCurrentOrder,
+}) => {
   useEffect(() => {
     if (user) getOrdersForUser(user.id)
   }, [getOrdersForUser, user])
@@ -52,7 +59,7 @@ const User: React.SFC<Props> = ({ user, orders, getOrdersForUser }) => {
             <Typography variant="subtitle1">Products</Typography>
             <List>
               {order.orderDetails.map(orderDetails => (
-                <ListItem>
+                <ListItem key={orderDetails.id}>
                   <ListItemText
                     primary={`Product: ${orderDetails.product.name}`}
                     secondary={`Quantity: ${orderDetails.quantity}`}
@@ -61,6 +68,7 @@ const User: React.SFC<Props> = ({ user, orders, getOrdersForUser }) => {
               ))}
             </List>
             <Button
+              onClick={() => reorderCurrentOrder(order.id)}
               className="d-flex ml-auto"
               variant="outlined"
               color="primary"
