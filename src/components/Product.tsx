@@ -32,7 +32,8 @@ const Product: React.SFC<Props> = ({ product, addToCart }) => {
           {product.name.toUpperCase()}
         </Typography>
         <Typography className="mb-2" variant="subtitle1">
-          Price: {product.price} | Quantity: {product.quantity} | Status:{" "}
+          Price: {Number(product.price).toFixed(2)} | Quantity:{" "}
+          {product.quantity} | Status:{" "}
           <FontAwesomeIcon
             size="lg"
             color={product.status ? green[600] : red[600]}

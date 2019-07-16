@@ -4,7 +4,7 @@ import { Action } from "redux"
 
 export type Order = {
   id: number
-  total: number
+  total: number | string
   orderDetails: OrderDetails[]
   user: User
 }

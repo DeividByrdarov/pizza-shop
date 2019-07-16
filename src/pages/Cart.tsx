@@ -33,7 +33,7 @@ const mapDispatchToProps = {
 type Props = ReturnType<typeof mapStateToProps> & {
   removeFromCart: (id: number) => void
   createOrder: (order: {
-    total: number
+    total: string
     items: Product[]
     user: User
   }) => Promise<void>
@@ -99,7 +99,7 @@ const Cart: React.SFC<Props> = ({
               variant="contained"
               onClick={() => {
                 if (user) {
-                  createOrder({ total, items, user })
+                  createOrder({ total: Number(total).toFixed(2), items, user })
                 }
               }}
             >

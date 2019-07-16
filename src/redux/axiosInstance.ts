@@ -1,6 +1,5 @@
 import axios from "axios"
 import config from "config"
-import { getToken } from "helpers/authHelpers"
 
 const axiosInstance = axios.create({
   baseURL: config.baseUrl,
@@ -21,13 +20,6 @@ const axiosInstance = axios.create({
     }
     return searchParams.toString()
   },
-})
-
-axiosInstance.interceptors.request.use(config => {
-  const token = getToken()
-  if (token) config.headers["Authorization"] = `Basic ${token}`
-
-  return config
 })
 
 axiosInstance.interceptors.response.use(
